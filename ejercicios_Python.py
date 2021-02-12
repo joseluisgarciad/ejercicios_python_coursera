@@ -341,3 +341,225 @@ def reemplazo(string):
 
 
 reemplazo("Viva la Vida")
+
+
+#===================================
+
+#Escriba una función de nombre promedio_std(). La función debe recibir una lista de números llamada lista,
+# y debe retornar retornar el promedio de ellos, junto con su desviación estándar.
+
+#Hint 1: La desviación estándar corresponde a la raíz de la suma de los cuadrados de las diferencias
+# de cada elemento respecto al promedio, divididos por la cantidad de elementos.
+#Hint 2: Recuerda que puedes retonar dos valores x e y utilizando la notación
+
+##################
+# Forma con llamada a libreria Math
+##################
+
+from math import sqrt
+
+
+def promedio_std(lista:list):
+    x = y = v = i = 0
+
+    # Promedio de la lista
+    x = round(sum(lista) / len(lista), 3)
+
+    for i in lista:
+        v += (i - x) ** 2
+
+    # desviación estandar
+    y = round(sqrt(v / len(lista)), 3)
+
+    return (x, y)
+
+
+print(promedio_std([2, 3, 5, 6, 34]))
+
+###########################
+### Forma SIN llamar a la libreria MATH
+###########################
+
+def promedio_std(lista):
+    x = y = suma = 0
+
+    media = sum(lista) / len(lista)
+
+    total = 0.0
+
+    for i in lista:
+        suma = suma + i
+        total = total + (i - media) ** 2
+
+    y = (total / len(lista)) ** 0.5
+    x = suma / len(lista)
+
+    return (x, y)
+
+
+print(promedio_std([2, 3, 5, 6, 34]))
+
+
+# ====================
+
+#Suponga que tiene una lista de colores repetidos y desordenados, estos pueden ser:
+# azul, rojo, verde y amarillo. Desea saber cual de esos colores es el que más se repite.
+# Escriba una función color_frecuente que reciba como argumento a una lista de strings
+# llamada lista y retorne el string más repetido y el número de ocurrencias del mismo.
+
+#Por ejemplo para la lista ['azul', 'rojo', 'verde', 'verde', 'verde', 'rojo', 'verde', 'verde',
+# 'azul', 'amarillo', 'azul', 'azul', 'verde', 'verde', 'verde', 'amarillo', 'amarillo']
+# Debe retornar: "verde", 8
+
+# ==========================
+# Posibilidad 1
+# ==========================
+
+def prioridad(color):
+    valor = 0
+    if color == "azul":
+        valor = 1
+    elif color == "rojo":
+        valor = 2
+    elif color == "verde":
+        valor = 3
+    elif color == "amarillo":
+        valor = 4
+
+    return valor
+
+
+def color_frecuente(lista: list):
+    i: str = ""
+    x: int = 0
+    occ: int = 0
+    color_ant: str = ""
+    colores = []
+
+    lista.sort()
+    color_ant = lista[0]
+    for i in lista:
+        if i != color_ant:  # or i == len(lista)-1:
+            colores.append([prioridad(color_ant), color_ant, occ])
+            occ = 0
+
+        color_ant = i
+        occ = occ + 1
+        x += 1
+        if len(lista) == x:
+            colores.append([prioridad(color_ant), color_ant, occ])
+
+    # colores.sort(key=lambda porprioridad: porprioridad[0])
+
+    be = sorted(colores, key=lambda x: (x[2], -x[0]), reverse=True)
+
+    print(be)
+    return be[0][1], be[0][2]
+
+
+lista = ["azul", "rojo", "verde", "verde", "verde", "rojo", "verde", "verde", "azul", "amarillo", "azul", "azul", "verde", "verde", "verde", "amarillo", "amarillo"]
+
+print(color_frecuente(lista))
+
+# ==========================
+# Posibilidad 1
+# ==========================
+
+
+def color_frecuente_2(lista):
+    color = ""
+    maximo = 0
+
+    for c in ['azul', 'rojo', 'verde', 'amarillo']:
+        if lista.count(c) > maximo:
+            maximo = lista.count(c)
+            color = c
+
+    return color, maximo
+
+
+lista = ["azul", "rojo", "verde", "verde", "verde", "rojo", "verde", "verde", "azul", "amarillo", "azul", "azul", "verde", "verde", "verde", "amarillo", "amarillo"]
+
+print(color_frecuente_2(lista))
+
+# ==============================
+
+# Un uso muy común de las listas es el de representar tableros con ellas. Para eso se utilizan listas de listas,
+# de este modo, se puede entender una lista de listas como una matriz. Así, para acceder a un elemento i,j
+# de la matriz, se debe acceder a: matriz[i][j].
+
+# Para ese ejercicio se dispone de un tablero de buscaminas especial, donde lo único que hay es bombas en las
+# distintas posiciones. Este tablero es de la forma:
+# 	X		X
+# X
+# 	X	X
+# X			X
+
+# Donde las X representan las bombas. Ese tablero, en representación matricial de Python, donde se utilizan strings
+# con un espacio: " " y "X" para representar espacios libres y bombas respectivamente, viene dado por:
+
+# 1  tablero = [[' ', 'X', ' ', 'X'],['X', ' ', ' ', ' '],[' ', 'X', 'X', ' '],['X', ' ', ' ', 'X']]
+
+# El objetivo de este ejercicio, es que programes una función buscaminas que reciba como argumento a una matriz tablero
+# y dos coordenadas i, j, y que entregue la cantidad de bombas que rodean a esa posición.
+
+# Por ejemplo, si la el tablero dado es el representado en la tabla, y la posición viene dada por i=0 y j=0,
+# tu función debe retornar el valor 2, ya que hay dos bombas rodeándola, en (0,1) y (1,0).
+
+# Por otro lado, si el tablero es el mismo, y las coordenadas son i=1, j=1, tu función debe retornar 4,
+# pues hay bombas rodeando la posición en (1,0), en (0,1), en (2,1) y en (2,2).
+
+# Hint: recuerda que el tablero puede ser de un tamaño arbitrario y que al escribir posiciones más grandes
+# que ese tamaño o menores que 0, tu programa arrojará error.
+
+
+def buscaminas(matriz, i, j):
+    x: int = j
+    y: int = i
+    dx: int = x - 1
+    dy: int = y - 1
+
+    hx: int = x + 2
+    if hx > len(matriz):
+        hx = len(matriz)
+    hy: int = y + 2
+    if hy > len(list(zip(*matriz))[0]):
+        hy = len(list(zip(*matriz))[0])
+    bb: int = -1
+    aa: int = -1
+    bombas: int = 0
+
+    #    if i == 0 and bb < 0:  bb = 0
+    #    if j == 0 and aa < 0:  aa = 0
+
+    for aa in range(dy, hy):  # Y
+        for bb in range(dx, hx):  # X
+            if aa >= 0 and bb >= 0:
+                # if aa <= hx:  # verifica que no se sobre pasa el limite horizontal
+                print(aa, "-", bb, "-", matriz[aa][bb])
+                if matriz[aa][bb] == "X":
+                    if str(aa) + str(bb) != str(y) + str(x):  # verifica que no se cuente la posición pasada por
+                        bombas += 1  # parametro como bomba
+
+    print("------")
+
+
+    b = 0
+    for a in range(len(matriz)):
+        print("[", matriz[a][b])
+        for b in range(len(list(zip(*matriz))[0])):
+            print(matriz[a][b])
+
+    # if matriz[a][b] == "X":
+    #  print(matriz[a][b])
+    # else:
+    # print("0")
+
+    print(matriz)
+
+    return bombas
+
+
+tablero = [['A', 'X', 'B', 'X'], ['X', 'C', 'D', 'E'], ['F', 'X', 'X', 'G'], ['X', 'H', 'I', 'X']]
+
+print("hay :", buscaminas(tablero, 1, 2), " minas en el tablero")
