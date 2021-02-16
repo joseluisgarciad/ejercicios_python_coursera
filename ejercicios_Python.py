@@ -547,7 +547,7 @@ def buscaminas(matriz, i, j):
     b = 0
     for a in range(len(matriz)):
         print("[", matriz[a][b])
-        for b in range(len(list(zip(*matriz))[0])):
+        for b in range(len(list(zip(*matriz))[0])):  # coge el primer elemento de cada sublista
             print(matriz[a][b])
 
     # if matriz[a][b] == "X":
@@ -563,3 +563,10 @@ def buscaminas(matriz, i, j):
 tablero = [['A', 'X', 'B', 'X'], ['X', 'C', 'D', 'E'], ['F', 'X', 'X', 'G'], ['X', 'H', 'I', 'X']]
 
 print("hay :", buscaminas(tablero, 1, 2), " minas en el tablero")
+
+
+# ================================================
+friends = []
+friends = linea[3:-1].split(",")  # pasa el contenido de un string separado por comas a una lista
+
+# ===============================================
